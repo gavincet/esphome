@@ -1,8 +1,3 @@
-substitutions:
-  name: "m5stack-atom-speaker-kit"
-  friendly_name: "M5Stack Atom Speaker Kit"
-  wifi_ap_password: ""
-
 esphome:
   name: "${name}"
   name_add_mac_suffix: true
@@ -24,7 +19,6 @@ dashboard_import:
 
 wifi:
   ap:
-    password: "${wifi_ap_password}"
 
 captive_portal:
 
