@@ -1,3 +1,7 @@
+substitutions:
+  name: "current_monitor"
+  friendly_name: "Current Monitor"
+  
 esphome:
   name: "${name}"
   platform: ESP8266
