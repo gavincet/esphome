@@ -1,8 +1,11 @@
 esphome:
-  name: retic-power-monitor
+  name: "${name}"
   platform: ESP8266
   board: d1_mini
-  
+
+project:
+    name: d1.currentmonitor
+    version: "1.0"
 
 # Enable logging
 logger:
