@@ -1,5 +1,5 @@
 esphome:
-  name: "${name}"
+  name: "Test"
   platform: ESP8266
   board: d1_mini
 
@@ -12,11 +12,7 @@ logger:
 api:
 ota:
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-  ap:
-    ssid: "retic-power-monitor"
+
     
 web_server:
   port: 80
