@@ -1,52 +1,35 @@
 esphome:
   name: "${name}"
+  platform: ESP8266
+  board: d1_mini
   name_add_mac_suffix: true
   project:
-    name: m5stack.atom-speaker-kit
+    name: d1.currentmonitor
     version: "1.0"
-
-esp32:
-  board: m5stack-atom
-  framework:
-    type: arduino
 
 logger:
 api:
 ota:
-
-dashboard_import:
-  package_import_url: github://esphome/media-players/m5stack-atom-speaker-kit.yaml@main
 
 wifi:
   ap:
 
 captive_portal:
 
-improv_serial:
+web_server:
+  port: 80
 
-media_player:
-  - platform: i2s_audio
-    id: media_out
-    name: ${friendly_name}
-    dac_type: external
-    i2s_lrclk_pin: GPIO21
-    i2s_dout_pin: GPIO25
-    i2s_bclk_pin: GPIO22
-    mode: mono
-
-binary_sensor:
-  - platform: gpio
-    pin:
-      number: GPIO39
-      inverted: true
-    name: ${friendly_name} Button
-    on_click:
-      - media_player.toggle: media_out
-
-light:
-  - platform: fastled_clockless
-    name: ${friendly_name}
-    pin: GPIO27
-    chipset: SK6812
-    num_leds: 1
-    rgb_order: grb
+sensor:
+  - platform: adc
+    pin: A0
+    name: "24AC Current"
+    device_class: current
+    unit_of_measurement: lx
+    filters:
+      - calibrate_linear:
+          # Measured value of 0 maps to 0A
+          - 2.5 -> 0
+          # Known load: 4.0A
+          # Value shown in logs: 0.1333A
+          - 2.685 -> 1.0
+      #- filter_out: -13.45017
