@@ -26,8 +26,8 @@ sensor:
     unit_of_measurement: lx
     update_interval: 10s
     filters:
+      - multiply: 3.3
       - calibrate_linear:
-       - multiply: 3.3
           # Measured value of 0 maps to 0A
           - 2.5 -> 0
           # Known load: 4.0A
