@@ -30,5 +30,5 @@ sensor:
           - 0.766 -> 0
           # Known load: 4.0A
           # Value shown in logs: 0.1333A
-       #   - 2.685 -> 1.0
+          - 0.8233 -> 1.0
       #- filter_out: -13.45017
