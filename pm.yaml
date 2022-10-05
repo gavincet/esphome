@@ -24,10 +24,10 @@ sensor:
     name: "${name}_24AC Current"
     device_class: current
     unit_of_measurement: lx
-   # filters:
-     # - calibrate_linear:
+    filters:
+      - calibrate_linear:
           # Measured value of 0 maps to 0A
-      #    - 2.5 -> 0
+          - 0.766 -> 0
           # Known load: 4.0A
           # Value shown in logs: 0.1333A
        #   - 2.685 -> 1.0
