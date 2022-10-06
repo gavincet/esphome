@@ -5,6 +5,10 @@ packages:
   device: !include devices/shelly1.yaml
 
 #esphome:
+#Copy the code to a new ESPHOME Device with the name + mac_suffix
+#Add the max_suffix to the name above and uncoment the following two lines.
+#this will then enable you to update the device with the base code for updates etc and will change the sensors names to be unique.
+
 #  name: ${name}
 #  name_add_mac_suffix: false
 
