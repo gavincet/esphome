@@ -1,0 +1,68 @@
+#define ADC_SCALE 1023.0
+#define VREF 5.0
+#define DEFAULT_FREQUENCY 50
+
+#include "esphome.h"
+class ACS712 : public PollingComponent, public Sensor
+{
+public:
+    int zero = 512;
+    float sensitivity;
+    uint8_t pin;
+    // constructor
+    ACS712() : PollingComponent(1000) {}
+    float get_setup_priority() const override { return esphome::setup_priority::HARDWARE; }
+    void calibrate()
+    {
+        uint16_t acc = 0;
+        for (int i = 0; i < 10; i++)
+        {
+            acc += analogRead(pin);
+        }
+        zero = acc / 10;
+    }
+
+    void setZeroPoint(int _zero)
+    {
+        zero = _zero;
+    }
+
+    void setSensitivity(float sens)
+    {
+        sensitivity = sens;
+    }
+
+    float getCurrentAC(uint16_t frequency)
+    {
+        uint32_t period = 1000000 / frequency;
+        uint32_t t_start = micros();
+        uint32_t Isum = 0, measurements_count = 0;
+        int32_t Inow;
+
+        while (micros() - t_start < period)
+        {
+            Inow = analogRead(pin) - zero;
+            Isum += Inow * Inow;
+            measurements_count++;
+        }
+
+        float Irms = sqrt(Isum / measurements_count) / ADC_SCALE * VREF / sensitivity;
+        if (Irms < 0.05)
+        {
+            Irms = 0;
+        }
+        return Irms;
+    }
+
+    void setup() override
+    {
+        // This will be called by App.setup()
+        calibrate();
+        sensitivity = 0.185;
+    }
+    void update() override
+    {
+        // This will be called every "update_interval" milliseconds.
+        publish_state(getCurrentAC(50));
+    }
+};
