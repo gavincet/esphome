@@ -1,0 +1,19 @@
+# Text sensors with general information.
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      id: IP
+      name: "${name}_ip"
+
+# Sensors with general information.
+sensor:
+  # Uptime sensor.
+  - platform: uptime
+    id: Uptime
+    name: "${name}_uptime"
+
+  # WiFi Signal sensor.
+  - platform: wifi_signal
+    id: WiFi_Signal
+    name: "${name}_wifi_signal"
+    update_interval: 60s

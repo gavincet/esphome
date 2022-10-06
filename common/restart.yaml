@@ -1,0 +1,4 @@
+switch:
+  - platform: restart
+    id: switch_restart
+    name: "${name} Restart"    
