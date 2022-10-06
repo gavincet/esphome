@@ -1,0 +1,47 @@
+substitutions:
+  name: shelly1
+  
+packages:
+  device: !include devices/shelly1.yaml
+
+#esphome:
+#  name: ${name}
+#  name_add_mac_suffix: false
+
+# Shelly 1 detached switch config with fallback in case of wifi or api fail
+
+switch:
+  - platform: gpio
+    name: ${name}
+    pin: GPIO4
+    id: shelly_relay
+    # after reboot, keep the relay off. this prevents light turning on after a power outage
+    restore_mode: ALWAYS_OFF
+
+binary_sensor:
+  - platform: gpio
+    name: ${name} Input
+    pin:
+      number: GPIO5
+    # small delay to prevent debouncing
+    filters:
+      - delayed_on_off: 50ms
+    # config for state change of input button
+    on_state:
+        then:
+          - if:
+              condition:
+                and:
+                  - wifi.connected:
+                  - api.connected:
+                  - switch.is_on: shelly_relay
+              # toggle smart light if wifi and api are connected and relay is on
+              then:
+                - homeassistant.service:
+                    service: light.toggle
+                    data:
+                      entity_id: light.kitchen
+              # else, toggle relay
+              else:
+                - switch.toggle: shelly_relay
+    id: button
