@@ -1,16 +1,16 @@
 #define ADC_SCALE 1023.0
-#define VREF 5.0
+#define VREF 3.3
 #define DEFAULT_FREQUENCY 50
 
 #include "esphome.h"
-class ACS712 : public PollingComponent, public Sensor
+class ACS712_05 : public PollingComponent, public Sensor
 {
 public:
     int zero = 512;
     float sensitivity;
     uint8_t pin;
     // constructor
-    ACS712() : PollingComponent(1000) {}
+    ACS712_05() : PollingComponent(1000) {}
     float get_setup_priority() const override { return esphome::setup_priority::HARDWARE; }
     void calibrate()
     {
