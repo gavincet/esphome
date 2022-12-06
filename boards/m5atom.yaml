@@ -1,0 +1,27 @@
+esphome:
+  name: "${name}"
+  platform: esp32
+  board: m5stack-atom
+  name_add_mac_suffix: true
+  
+light:
+  - platform: fastled_clockless
+    chipset: WS2812B
+    pin: 27
+    num_leds: 1
+    rgb_order: GRB
+    id: status_led
+    name: ${name} Light
+    effects:
+      - random:
+      - flicker:
+      - addressable_rainbow:
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: 39
+      inverted: true
+    name: ${name} Button
+   
+  
